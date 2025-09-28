@@ -52,8 +52,19 @@ function Index() {
   };
 
   const renderMainSection = () => (
-    <div className="min-h-screen bg-gradient-to-br from-secondary to-background text-foreground">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%239C92AC\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"4\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
+    <div className="min-h-screen bg-gradient-to-br from-secondary to-background text-foreground relative overflow-hidden">
+      <div className="absolute inset-0 opacity-20">
+        <div className="w-full h-full" style={{
+          backgroundImage: `url("data:image/svg+xml,${encodeURIComponent('<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="#9C92AC" fill-opacity="0.1"><circle cx="30" cy="30" r="4"/></g></g></svg>')}")`,
+          backgroundRepeat: 'repeat'
+        }}></div>
+      </div>
+      <div className="absolute top-10 right-10 w-32 h-32 opacity-30">
+        <img src="/img/0cbdb06e-1e61-4f67-a1a1-bc673cc8e1be.jpg" alt="Ice cream" className="w-full h-full object-contain animate-pulse-slow" />
+      </div>
+      <div className="absolute bottom-10 left-10 w-24 h-24 opacity-20">
+        <img src="/img/0cbdb06e-1e61-4f67-a1a1-bc673cc8e1be.jpg" alt="Ice cream" className="w-full h-full object-contain animate-pulse-slow" style={{animationDelay: '1s'}} />
+      </div>
       
       <div className="relative z-10 container mx-auto px-4 py-8">
         <div className="text-center mb-12">
