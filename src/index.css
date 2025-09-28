@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -97,6 +98,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: "Orbitron", monospace;
   }
 }
 
@@ -129,5 +131,17 @@
       linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
       linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
     background-size: 50px 50px;
+  }
+
+  .pickyside-font {
+    font-family: "Orbitron", monospace;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .auth-card {
+    @apply glass-effect neon-glow border-2 border-primary/30;
+    backdrop-filter: blur(20px);
   }
 }

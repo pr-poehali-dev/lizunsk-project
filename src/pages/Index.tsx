@@ -6,6 +6,13 @@ import { Input } from '@/components/ui/input';
 import Icon from '@/components/ui/icon';
 
 function Index() {
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [currentUser, setCurrentUser] = useState('');
+  const [users, setUsers] = useState<Record<string, {password: string, lizcoin: number}>>({});
+  
   const [lizcoin, setLizcoin] = useState(100);
   const [activeSection, setActiveSection] = useState('main');
   const [crosswordAnswers, setCrosswordAnswers] = useState<Record<string, string>>({});
@@ -17,6 +24,50 @@ function Index() {
   const [gameRunning, setGameRunning] = useState(false);
   const [coins, setCoins] = useState([200, 400, 600]);
   const [completedLevels, setCompletedLevels] = useState<number[]>([]);
+
+  // Auth functions
+  const handleLogin = () => {
+    if (users[username] && users[username].password === password) {
+      setIsAuthenticated(true);
+      setCurrentUser(username);
+      setLizcoin(users[username].lizcoin);
+      setUsername('');
+      setPassword('');
+    } else {
+      alert('Неверный логин или пароль!');
+    }
+  };
+
+  const handleRegister = () => {
+    if (username && password) {
+      if (users[username]) {
+        alert('Пользователь уже существует!');
+        return;
+      }
+      setUsers(prev => ({
+        ...prev,
+        [username]: { password, lizcoin: 100 }
+      }));
+      setIsAuthenticated(true);
+      setCurrentUser(username);
+      setLizcoin(100);
+      setUsername('');
+      setPassword('');
+    } else {
+      alert('Заполните все поля!');
+    }
+  };
+
+  const handleLogout = () => {
+    // Save current lizcoin balance
+    setUsers(prev => ({
+      ...prev,
+      [currentUser]: { ...prev[currentUser], lizcoin }
+    }));
+    setIsAuthenticated(false);
+    setCurrentUser('');
+    setActiveSection('main');
+  };
 
   const regions = {
     'Субкультурная область': ['Лизунск город', 'Готовск', 'Эмовск', 'Панквск'],
@@ -37,10 +88,10 @@ function Index() {
   ];
 
   const shopItems = [
-    { id: 'passport', name: 'Паспорт Лизунска', price: 500, emoji: '📄' },
-    { id: 'moon-passport', name: 'Лунный паспорт', price: 50000, emoji: '🌙', limited: true, stock: 2 },
-    { id: 'signature', name: 'Подпись от президента', price: 2400, emoji: '✍️' },
-    { id: 'statue', name: 'Фигурка статуи Лизы Свободы', price: 1800, emoji: '🗽' }
+    { id: 'passport', name: 'GALACTIC PASSPORT', price: 500, icon: '◈' },
+    { id: 'moon-passport', name: 'LUNAR ACCESS PASS', price: 50000, icon: '◉', limited: true, stock: 2 },
+    { id: 'signature', name: 'PRESIDENTIAL SIGNATURE', price: 2400, icon: '◊' },
+    { id: 'statue', name: 'QUANTUM LIZA STATUE', price: 1800, icon: '◆' }
   ];
 
   // Game controls
@@ -104,36 +155,45 @@ function Index() {
     }
   };
 
-  const renderMainSection = () => (
+  const renderAuthSection = () => (\n    <div className=\"min-h-screen bg-gradient-to-br from-background via-card to-background text-foreground relative overflow-hidden cyber-grid flex items-center justify-center\">\n      <div className=\"absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 opacity-50\"></div>\n      \n      <Card className=\"auth-card w-full max-w-md mx-4 relative z-10\">\n        <CardHeader className=\"text-center\">\n          <CardTitle className=\"text-3xl gradient-text pickyside-font mb-4\">\n            ◼ LIZUNSK OS ◼\n          </CardTitle>\n          <p className=\"text-muted-foreground\">ACCESS TERMINAL</p>\n        </CardHeader>\n        <CardContent className=\"space-y-4\">\n          <div>\n            <Input\n              placeholder=\"USERNAME\"\n              value={username}\n              onChange={(e) => setUsername(e.target.value)}\n              className=\"glass-effect pickyside-font text-center\"\n            />\n          </div>\n          <div>\n            <Input\n              type=\"password\"\n              placeholder=\"PASSWORD\"\n              value={password}\n              onChange={(e) => setPassword(e.target.value)}\n              className=\"glass-effect pickyside-font text-center\"\n            />\n          </div>\n          <div className=\"flex gap-2\">\n            <Button \n              onClick={handleLogin}\n              className=\"flex-1 hover-scale neon-glow pickyside-font\"\n              variant=\"outline\"\n            >\n              ▶ LOGIN\n            </Button>\n            <Button \n              onClick={handleRegister}\n              className=\"flex-1 hover-scale neon-glow pickyside-font\"\n            >\n              ◉ REGISTER\n            </Button>\n          </div>\n        </CardContent>\n      </Card>\n    </div>\n  );\n\n  const renderMainSection = () => ("
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-background text-foreground relative overflow-hidden cyber-grid">
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 opacity-50"></div>
       
       <div className="relative z-10 container mx-auto px-4 py-8">
-        <div className="text-center mb-12">
-          <h1 className="text-7xl font-bold mb-4 gradient-text animate-fade-in neon-glow">
-            ЛИЗУНСК
-          </h1>
-          <p className="text-2xl text-muted-foreground mb-2">
-            Космическая Страна Будущего
-          </p>
-          <p className="text-lg text-muted-foreground mb-8">
-            Исследуйте виртуальные просторы галактической цивилизации
-          </p>
-          
-          <div className="flex justify-center items-center gap-4 mb-8">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="text-7xl font-bold gradient-text animate-fade-in neon-glow pickyside-font">
+              ◼ LIZUNSK ◼
+            </h1>
+            <p className="text-lg text-muted-foreground pickyside-font">
+              GALACTIC CIVILIZATION 3030
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
             <Badge variant="outline" className="text-lg px-6 py-3 hover-scale glass-effect neon-glow">
               <Icon name="Coins" size={24} className="mr-2 text-primary" />
-              <span className="gradient-text font-bold">{lizcoin}</span> лизкоинов
+              <span className="gradient-text font-bold pickyside-font">{lizcoin}</span> LZC
             </Badge>
+            <div className="text-right">
+              <p className="text-sm text-muted-foreground">USER:</p>
+              <p className="pickyside-font text-primary">{currentUser}</p>
+            </div>
+            <Button 
+              onClick={handleLogout}
+              variant="outline"
+              className="hover-scale neon-glow pickyside-font"
+            >
+              ◆ LOGOUT
+            </Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
-            { id: 'history', title: 'История страны', emoji: '🌌', desc: 'Узнайте о происхождении галактической цивилизации' },
-            { id: 'shop', title: 'Магазин', emoji: '🛸', desc: 'Космические товары за лизкоины' },
-            { id: 'attractions', title: 'Достопримечательности', emoji: '🏛️', desc: 'Межпланетные памятники' },
-            { id: 'quests', title: 'Квесты', emoji: '⚡', desc: 'Зарабатывайте в киберпространстве' }
+            { id: 'history', title: 'HISTORY', icon: '◈', desc: 'GALACTIC CIVILIZATION ORIGINS' },
+            { id: 'shop', title: 'SHOP', icon: '◇', desc: 'COSMIC ITEMS FOR LZC' },
+            { id: 'attractions', title: 'PLACES', icon: '◆', desc: 'INTERPLANETARY MONUMENTS' },
+            { id: 'quests', title: 'QUESTS', icon: '◊', desc: 'EARN IN CYBERSPACE' }
           ].map(section => (
             <Card 
               key={section.id}
@@ -141,11 +201,11 @@ function Index() {
               onClick={() => setActiveSection(section.id)}
             >
               <CardHeader className="text-center">
-                <div className="text-4xl mb-2">{section.emoji}</div>
-                <CardTitle className="text-xl gradient-text">{section.title}</CardTitle>
+                <div className="text-4xl mb-2 text-primary">{section.icon}</div>
+                <CardTitle className="text-xl gradient-text pickyside-font">{section.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-center text-muted-foreground">{section.desc}</p>
+                <p className="text-center text-muted-foreground text-sm pickyside-font">{section.desc}</p>
               </CardContent>
             </Card>
           ))}
@@ -154,30 +214,30 @@ function Index() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="glass-effect neon-glow">
             <CardHeader>
-              <CardTitle className="gradient-text">🏙️ Города по областям</CardTitle>
+              <CardTitle className="gradient-text pickyside-font">◈ REGIONS & CITIES</CardTitle>
             </CardHeader>
             <CardContent>
               <Button 
                 onClick={() => setActiveSection('cities')} 
-                className="w-full hover-scale neon-glow"
+                className="w-full hover-scale neon-glow pickyside-font"
                 variant="outline"
               >
-                Исследовать города
+                ▶ EXPLORE TERRITORIES
               </Button>
             </CardContent>
           </Card>
 
           <Card className="glass-effect neon-glow">
             <CardHeader>
-              <CardTitle className="gradient-text">🎮 Лизун-Марио</CardTitle>
+              <CardTitle className="gradient-text pickyside-font">◇ LIZUN-MARIO</CardTitle>
             </CardHeader>
             <CardContent>
               <Button 
                 onClick={() => setActiveSection('game')} 
-                className="w-full hover-scale neon-glow"
+                className="w-full hover-scale neon-glow pickyside-font"
                 variant="outline"
               >
-                Играть в космо-платформер
+                ▶ ENTER CYBERSPACE
               </Button>
             </CardContent>
           </Card>
@@ -200,23 +260,23 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text">🏙️ Города страны Лизунск</CardTitle>
+            <CardTitle className="text-3xl gradient-text pickyside-font">◈ LIZUNSK TERRITORIES</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
               {Object.entries(regions).map(([region, cities]) => (
                 <div key={region}>
-                  <h3 className="text-2xl font-bold mb-4 text-secondary">{region}</h3>
+                  <h3 className="text-2xl font-bold mb-4 text-secondary pickyside-font">{region}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
                       <Card key={city} className="hover-scale glass-effect border-primary/30">
                         <CardHeader className="text-center">
-                          <CardTitle className="text-lg gradient-text">{city}</CardTitle>
+                          <CardTitle className="text-lg gradient-text pickyside-font">{city}</CardTitle>
                         </CardHeader>
                         <CardContent className="text-center">
-                          <div className="text-3xl mb-2">🌃</div>
-                          <p className="text-sm text-muted-foreground">
-                            Космический мегаполис
+                          <div className="text-3xl mb-2 text-primary">◼</div>
+                          <p className="text-sm text-muted-foreground pickyside-font">
+                            CYBER METROPOLIS
                           </p>
                         </CardContent>
                       </Card>
@@ -245,26 +305,26 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text">🎮 Лизун-Марио: Космическое приключение</CardTitle>
-            <p className="text-muted-foreground">
-              Используйте стрелки ← → для движения. Собирайте монеты и достигните финиша!
+            <CardTitle className="text-3xl gradient-text pickyside-font">◇ LIZUN-MARIO: SPACE QUEST</CardTitle>
+            <p className="text-muted-foreground pickyside-font">
+              USE ← → ARROWS TO MOVE. COLLECT COINS AND REACH THE FINISH!
             </p>
           </CardHeader>
           <CardContent>
             {!gameRunning ? (
               <div className="space-y-4">
                 <div className="text-center mb-6">
-                  <p className="text-lg mb-4">Выберите уровень:</p>
+                  <p className="text-lg mb-4 pickyside-font">SELECT LEVEL:</p>
                   <div className="flex gap-4 justify-center">
                     {[1, 2, 3].map(level => (
                       <Button
                         key={level}
                         onClick={() => startGame(level)}
-                        className={`hover-scale neon-glow ${completedLevels.includes(level) ? 'bg-green-600' : ''}`}
+                        className={`hover-scale neon-glow pickyside-font ${completedLevels.includes(level) ? 'bg-green-600' : ''}`}
                         variant="outline"
                       >
-                        {completedLevels.includes(level) ? '✅' : '🎯'} Уровень {level}
-                        {completedLevels.includes(level) && <span className="ml-2 text-xs">(+100 🪙)</span>}
+                        {completedLevels.includes(level) ? '◆' : '◇'} LEVEL {level}
+                        {completedLevels.includes(level) && <span className="ml-2 text-xs">(+100 LZC)</span>}
                       </Button>
                     ))}
                   </div>
@@ -273,8 +333,8 @@ function Index() {
             ) : (
               <div className="space-y-4">
                 <div className="text-center mb-4">
-                  <Badge className="text-lg px-4 py-2 neon-glow">
-                    Уровень {gameLevel} | Собрано: {3 - coins.length}/3 монет
+                  <Badge className="text-lg px-4 py-2 neon-glow pickyside-font">
+                    LEVEL {gameLevel} | COINS: {3 - coins.length}/3
                   </Badge>
                 </div>
                 
@@ -284,7 +344,7 @@ function Index() {
                     className="absolute bottom-2 w-8 h-8 bg-primary rounded-full transition-all duration-100 shadow-lg"
                     style={{ left: `${playerPosition}px` }}
                   >
-                    🤖
+                    ◼
                   </div>
                   
                   {/* Coins */}
@@ -294,13 +354,13 @@ function Index() {
                       className="absolute bottom-12 w-6 h-6 bg-yellow-400 rounded-full animate-bounce"
                       style={{ left: `${pos}px` }}
                     >
-                      🪙
+                      ◉
                     </div>
                   ))}
                   
                   {/* Finish line */}
                   <div className="absolute right-2 top-0 bottom-0 w-4 bg-gradient-to-t from-green-400 to-green-600 rounded">
-                    🏁
+                    ◆
                   </div>
                 </div>
                 
@@ -308,9 +368,9 @@ function Index() {
                   <Button 
                     onClick={() => setGameRunning(false)}
                     variant="outline"
-                    className="hover-scale"
+                    className="hover-scale pickyside-font"
                   >
-                    Остановить игру
+                    ◼ STOP GAME
                   </Button>
                 </div>
               </div>
@@ -520,6 +580,10 @@ function Index() {
       </div>
     </div>
   );
+
+  if (!isAuthenticated) {
+    return renderAuthSection();
+  }
 
   return (
     <div className="min-h-screen bg-background dark">
