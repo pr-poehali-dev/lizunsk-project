@@ -155,7 +155,56 @@ function Index() {
     }
   };
 
-  const renderAuthSection = () => (\n    <div className=\"min-h-screen bg-gradient-to-br from-background via-card to-background text-foreground relative overflow-hidden cyber-grid flex items-center justify-center\">\n      <div className=\"absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 opacity-50\"></div>\n      \n      <Card className=\"auth-card w-full max-w-md mx-4 relative z-10\">\n        <CardHeader className=\"text-center\">\n          <CardTitle className=\"text-3xl gradient-text pickyside-font mb-4\">\n            ◼ LIZUNSK OS ◼\n          </CardTitle>\n          <p className=\"text-muted-foreground\">ACCESS TERMINAL</p>\n        </CardHeader>\n        <CardContent className=\"space-y-4\">\n          <div>\n            <Input\n              placeholder=\"USERNAME\"\n              value={username}\n              onChange={(e) => setUsername(e.target.value)}\n              className=\"glass-effect pickyside-font text-center\"\n            />\n          </div>\n          <div>\n            <Input\n              type=\"password\"\n              placeholder=\"PASSWORD\"\n              value={password}\n              onChange={(e) => setPassword(e.target.value)}\n              className=\"glass-effect pickyside-font text-center\"\n            />\n          </div>\n          <div className=\"flex gap-2\">\n            <Button \n              onClick={handleLogin}\n              className=\"flex-1 hover-scale neon-glow pickyside-font\"\n              variant=\"outline\"\n            >\n              ▶ LOGIN\n            </Button>\n            <Button \n              onClick={handleRegister}\n              className=\"flex-1 hover-scale neon-glow pickyside-font\"\n            >\n              ◉ REGISTER\n            </Button>\n          </div>\n        </CardContent>\n      </Card>\n    </div>\n  );\n\n  const renderMainSection = () => ("
+  const renderAuthSection = () => (
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-background text-foreground relative overflow-hidden cyber-grid flex items-center justify-center">
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 opacity-50"></div>
+      
+      <Card className="auth-card w-full max-w-md mx-4 relative z-10">
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl gradient-text pickyside-font mb-4">
+            ◼ LIZUNSK OS ◼
+          </CardTitle>
+          <p className="text-muted-foreground">ACCESS TERMINAL</p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Input
+              placeholder="USERNAME"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="glass-effect pickyside-font text-center"
+            />
+          </div>
+          <div>
+            <Input
+              type="password"
+              placeholder="PASSWORD"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="glass-effect pickyside-font text-center"
+            />
+          </div>
+          <div className="flex gap-2">
+            <Button 
+              onClick={handleLogin}
+              className="flex-1 hover-scale neon-glow pickyside-font"
+              variant="outline"
+            >
+              ▶ LOGIN
+            </Button>
+            <Button 
+              onClick={handleRegister}
+              className="flex-1 hover-scale neon-glow pickyside-font"
+            >
+              ◉ REGISTER
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderMainSection = () => ("
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-background text-foreground relative overflow-hidden cyber-grid">
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 opacity-50"></div>
       
