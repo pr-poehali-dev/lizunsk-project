@@ -5,33 +5,33 @@
 
 @layer base {
   :root {
-    --background: 240 10% 8%;
-    --foreground: 0 0% 98%;
+    --background: 220 25% 95%;
+    --foreground: 220 40% 10%;
 
-    --card: 240 15% 12%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 40% 10%;
 
-    --popover: 240 15% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 40% 10%;
 
-    --primary: 280 100% 70%;
-    --primary-foreground: 0 0% 10%;
+    --primary: 30 90% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 100% 60%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 200 85% 45%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 10% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 220 15% 85%;
+    --muted-foreground: 220 25% 40%;
 
-    --accent: 340 100% 65%;
-    --accent-foreground: 0 0% 10%;
+    --accent: 280 60% 60%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 15% 20%;
-    --input: 240 15% 15%;
-    --ring: 280 100% 70%;
+    --border: 220 20% 85%;
+    --input: 220 20% 92%;
+    --ring: 30 90% 55%;
 
     --radius: 0.75rem;
 
@@ -53,33 +53,33 @@
   }
 
   .dark {
-    --background: 240 10% 8%;
-    --foreground: 0 0% 98%;
+    --background: 220 25% 95%;
+    --foreground: 220 40% 10%;
 
-    --card: 240 15% 12%;
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 40% 10%;
 
-    --popover: 240 15% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 40% 10%;
 
-    --primary: 280 100% 70%;
-    --primary-foreground: 0 0% 10%;
+    --primary: 30 90% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 100% 60%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 200 85% 45%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 10% 15%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 220 15% 85%;
+    --muted-foreground: 220 25% 40%;
 
-    --accent: 340 100% 65%;
-    --accent-foreground: 0 0% 10%;
+    --accent: 280 60% 60%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 15% 20%;
-    --input: 240 15% 15%;
-    --ring: 280 100% 70%;
+    --border: 220 20% 85%;
+    --input: 220 20% 92%;
+    --ring: 30 90% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -98,7 +98,10 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Orbitron", monospace;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 }
 
@@ -117,31 +120,50 @@
 
   .neon-glow {
     box-shadow:
-      0 0 20px hsla(var(--primary) / 0.3),
-      0 0 40px hsla(var(--primary) / 0.2),
-      0 0 60px hsla(var(--primary) / 0.1);
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.05);
   }
 
   .glass-effect {
-    @apply bg-card/20 backdrop-blur-lg border border-border/50;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3)
+    );
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+      0 8px 32px 0 rgba(31, 38, 135, 0.15),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.8),
+      inset 0 -1px 0 0 rgba(255, 255, 255, 0.3);
   }
 
   .cyber-grid {
     background-image:
-      linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
+      radial-gradient(
+        circle at 20% 50%,
+        rgba(30, 144, 255, 0.08) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba(255, 165, 0, 0.08) 0%,
+        transparent 50%
+      );
   }
 
   .pickyside-font {
-    font-family: "Orbitron", monospace;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
   }
 
   .auth-card {
-    @apply glass-effect neon-glow border-2 border-primary/30;
-    backdrop-filter: blur(20px);
+    @apply glass-effect neon-glow;
+    border-radius: 24px;
   }
 }

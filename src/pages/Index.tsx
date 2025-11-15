@@ -11,9 +11,9 @@ function Index() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [currentUser, setCurrentUser] = useState('');
-  const [users, setUsers] = useState<Record<string, {password: string, lizcoin: number}>>({});
+  const [users, setUsers] = useState<Record<string, {password: string, pugcoins: number}>>({});
   
-  const [lizcoin, setLizcoin] = useState(100);
+  const [pugcoins, setPugcoins] = useState(100);
   const [activeSection, setActiveSection] = useState('main');
   const [crosswordAnswers, setCrosswordAnswers] = useState<Record<string, string>>({});
   const [completedCrosswords, setCompletedCrosswords] = useState<string[]>([]);
@@ -30,7 +30,7 @@ function Index() {
     if (users[username] && users[username].password === password) {
       setIsAuthenticated(true);
       setCurrentUser(username);
-      setLizcoin(users[username].lizcoin);
+      setPugcoins(users[username].pugcoins);
       setUsername('');
       setPassword('');
     } else {
@@ -46,11 +46,11 @@ function Index() {
       }
       setUsers(prev => ({
         ...prev,
-        [username]: { password, lizcoin: 100 }
+        [username]: { password, pugcoins: 100 }
       }));
       setIsAuthenticated(true);
       setCurrentUser(username);
-      setLizcoin(100);
+      setPugcoins(100);
       setUsername('');
       setPassword('');
     } else {
@@ -59,10 +59,10 @@ function Index() {
   };
 
   const handleLogout = () => {
-    // Save current lizcoin balance
+    // Save current pugcoins balance
     setUsers(prev => ({
       ...prev,
-      [currentUser]: { ...prev[currentUser], lizcoin }
+      [currentUser]: { ...prev[currentUser], pugcoins }
     }));
     setIsAuthenticated(false);
     setCurrentUser('');
@@ -70,28 +70,28 @@ function Index() {
   };
 
   const regions = {
-    'Субкультурная область': ['Лизунск город', 'Готовск', 'Эмовск', 'Панквск'],
-    'Мухосранская область': ['Мухосранск', 'Нижний Лизунск'],
-    'Лизунская область': ['Картэльск', 'Никтовск', 'Пеневск']
+    'Центральный район': ['Мопс-Сити', 'Барклай', 'Паг-Таун'],
+    'Торговый квартал': ['Булька-Базар', 'Носик-Плаза'],
+    'Ушастая слобода': ['Свернутый Хвост', 'Храпово', 'Морщинкино']
   };
 
   const crosswordWords = [
-    { id: 'word1', clue: 'Главная достопримечательность страны', answer: 'лизун', length: 5 },
-    { id: 'word2', clue: 'Холодное лакомство', answer: 'мороженое', length: 9 },
-    { id: 'word3', clue: 'Фруктовый лед', answer: 'сорбет', length: 6 },
-    { id: 'word4', clue: 'Часть тела для объятий', answer: 'ладошка', length: 7 },
-    { id: 'word5', clue: 'Летний суп', answer: 'окрошка', length: 7 },
-    { id: 'word6', clue: 'Певчая птица', answer: 'соловей', length: 7 },
-    { id: 'word7', clue: 'Молочное животное', answer: 'корова', length: 6 },
-    { id: 'word8', clue: 'Женское имя', answer: 'лиза', length: 4 },
-    { id: 'word9', clue: 'Глава государства', answer: 'президент', length: 9 }
+    { id: 'word1', clue: 'Символ города', answer: 'мопс', length: 4 },
+    { id: 'word2', clue: 'Главный товар на рынке', answer: 'корм', length: 4 },
+    { id: 'word3', clue: 'Украшение для шеи', answer: 'ошейник', length: 8 },
+    { id: 'word4', clue: 'Место торговли', answer: 'базар', length: 5 },
+    { id: 'word5', clue: 'Любимая игрушка', answer: 'мячик', length: 5 },
+    { id: 'word6', clue: 'Валюта города', answer: 'пагкоин', length: 7 },
+    { id: 'word7', clue: 'Торговец на базаре', answer: 'купец', length: 5 },
+    { id: 'word8', clue: 'Хвост мопса', answer: 'завиток', length: 7 },
+    { id: 'word9', clue: 'Мера веса на базаре', answer: 'пуд', length: 3 }
   ];
 
   const shopItems = [
-    { id: 'passport', name: 'GALACTIC PASSPORT', price: 500, icon: '◈' },
-    { id: 'moon-passport', name: 'LUNAR ACCESS PASS', price: 50000, icon: '◉', limited: true, stock: 2 },
-    { id: 'signature', name: 'PRESIDENTIAL SIGNATURE', price: 2400, icon: '◊' },
-    { id: 'statue', name: 'QUANTUM LIZA STATUE', price: 1800, icon: '◆' }
+    { id: 'collar', name: 'Золотой ошейник', price: 500, icon: '🔗' },
+    { id: 'toy', name: 'Царский мячик', price: 300, icon: '⚽' },
+    { id: 'bowl', name: 'Хрустальная миска', price: 800, icon: '🥣' },
+    { id: 'statue', name: 'Статуя мопса', price: 2000, icon: '🗿' }
   ];
 
   // Game controls
@@ -108,7 +108,7 @@ function Index() {
       // Check coin collection
       coins.forEach((coinPos, index) => {
         if (Math.abs(playerPosition - coinPos) < 30) {
-          setLizcoin(prev => prev + 50);
+          setPugcoins(prev => prev + 50);
           setCoins(prev => prev.filter((_, i) => i !== index));
         }
       });
@@ -117,7 +117,7 @@ function Index() {
       if (playerPosition >= 680) {
         setGameRunning(false);
         if (!completedLevels.includes(gameLevel)) {
-          setLizcoin(prev => prev + 100);
+          setPugcoins(prev => prev + 100);
           setCompletedLevels(prev => [...prev, gameLevel]);
         }
       }
@@ -138,7 +138,7 @@ function Index() {
     const word = crosswordWords.find(w => w.id === wordId);
     if (word && answer.toLowerCase() === word.answer.toLowerCase()) {
       if (!completedCrosswords.includes(wordId)) {
-        setLizcoin(prev => prev + 25);
+        setPugcoins(prev => prev + 25);
         setCompletedCrosswords(prev => [...prev, wordId]);
       }
       return true;
@@ -147,11 +147,11 @@ function Index() {
   };
 
   const buyItem = (item: any) => {
-    if (lizcoin >= item.price) {
-      setLizcoin(prev => prev - item.price);
+    if (pugcoins >= item.price) {
+      setPugcoins(prev => prev - item.price);
       alert(`Вы купили ${item.name}! 🎉`);
     } else {
-      alert('Недостаточно лизкоинов! 💰');
+      alert('Недостаточно пагкоинов! 💰');
     }
   };
 
@@ -162,14 +162,14 @@ function Index() {
       <Card className="auth-card w-full max-w-md mx-4 relative z-10">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl gradient-text pickyside-font mb-4">
-            ◼ LIZUNSK OS ◼
+            🐶 Мопс-Град Торговля 🐶
           </CardTitle>
-          <p className="text-muted-foreground">ACCESS TERMINAL</p>
+          <p className="text-muted-foreground">Торговая площадка</p>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
             <Input
-              placeholder="USERNAME"
+              placeholder="Имя купца"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="glass-effect pickyside-font text-center"
@@ -178,7 +178,7 @@ function Index() {
           <div>
             <Input
               type="password"
-              placeholder="PASSWORD"
+              placeholder="Пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="glass-effect pickyside-font text-center"
@@ -190,13 +190,13 @@ function Index() {
               className="flex-1 hover-scale neon-glow pickyside-font"
               variant="outline"
             >
-              ▶ LOGIN
+              Войти
             </Button>
             <Button 
               onClick={handleRegister}
               className="flex-1 hover-scale neon-glow pickyside-font"
             >
-              ◉ REGISTER
+              Зарегистрироваться
             </Button>
           </div>
         </CardContent>
@@ -204,7 +204,7 @@ function Index() {
     </div>
   );
 
-  const renderMainSection = () => ("
+  const renderMainSection = () => (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-background text-foreground relative overflow-hidden cyber-grid">
       <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 opacity-50"></div>
       
@@ -212,19 +212,19 @@ function Index() {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-7xl font-bold gradient-text animate-fade-in neon-glow pickyside-font">
-              ◼ LIZUNSK ◼
+              🐶 Мопс-Град 🐶
             </h1>
             <p className="text-lg text-muted-foreground pickyside-font">
-              GALACTIC CIVILIZATION 3030
+              Торговый центр
             </p>
           </div>
           <div className="flex items-center gap-4">
             <Badge variant="outline" className="text-lg px-6 py-3 hover-scale glass-effect neon-glow">
               <Icon name="Coins" size={24} className="mr-2 text-primary" />
-              <span className="gradient-text font-bold pickyside-font">{lizcoin}</span> LZC
+              <span className="gradient-text font-bold pickyside-font">{pugcoins}</span> Пагкоинов
             </Badge>
             <div className="text-right">
-              <p className="text-sm text-muted-foreground">USER:</p>
+              <p className="text-sm text-muted-foreground">Купец:</p>
               <p className="pickyside-font text-primary">{currentUser}</p>
             </div>
             <Button 
@@ -232,17 +232,17 @@ function Index() {
               variant="outline"
               className="hover-scale neon-glow pickyside-font"
             >
-              ◆ LOGOUT
+              Выйти
             </Button>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {[
-            { id: 'history', title: 'HISTORY', icon: '◈', desc: 'GALACTIC CIVILIZATION ORIGINS' },
-            { id: 'shop', title: 'SHOP', icon: '◇', desc: 'COSMIC ITEMS FOR LZC' },
-            { id: 'attractions', title: 'PLACES', icon: '◆', desc: 'INTERPLANETARY MONUMENTS' },
-            { id: 'quests', title: 'QUESTS', icon: '◊', desc: 'EARN IN CYBERSPACE' }
+            { id: 'history', title: 'История', icon: '📜', desc: 'Летопись города' },
+            { id: 'shop', title: 'Лавка', icon: '🏪', desc: 'Товары за пагкоины' },
+            { id: 'attractions', title: 'Достоприм.', icon: '🏛️', desc: 'Памятные места' },
+            { id: 'quests', title: 'Задания', icon: '✨', desc: 'Заработать пагкоины' }
           ].map(section => (
             <Card 
               key={section.id}
@@ -263,7 +263,7 @@ function Index() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="glass-effect neon-glow">
             <CardHeader>
-              <CardTitle className="gradient-text pickyside-font">◈ REGIONS & CITIES</CardTitle>
+              <CardTitle className="gradient-text pickyside-font">🏘️ Районы города</CardTitle>
             </CardHeader>
             <CardContent>
               <Button 
@@ -271,14 +271,14 @@ function Index() {
                 className="w-full hover-scale neon-glow pickyside-font"
                 variant="outline"
               >
-                ▶ EXPLORE TERRITORIES
+                Посмотреть районы
               </Button>
             </CardContent>
           </Card>
 
           <Card className="glass-effect neon-glow">
             <CardHeader>
-              <CardTitle className="gradient-text pickyside-font">◇ LIZUN-MARIO</CardTitle>
+              <CardTitle className="gradient-text pickyside-font">🎮 Мопс-Игра</CardTitle>
             </CardHeader>
             <CardContent>
               <Button 
@@ -286,7 +286,7 @@ function Index() {
                 className="w-full hover-scale neon-glow pickyside-font"
                 variant="outline"
               >
-                ▶ ENTER CYBERSPACE
+                Начать игру
               </Button>
             </CardContent>
           </Card>
@@ -309,7 +309,7 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text pickyside-font">◈ LIZUNSK TERRITORIES</CardTitle>
+            <CardTitle className="text-3xl gradient-text pickyside-font">🏛️ Районы Мопс-Града</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-8">
@@ -323,9 +323,9 @@ function Index() {
                           <CardTitle className="text-lg gradient-text pickyside-font">{city}</CardTitle>
                         </CardHeader>
                         <CardContent className="text-center">
-                          <div className="text-3xl mb-2 text-primary">◼</div>
+                          <div className="text-3xl mb-2 text-primary">🏘️</div>
                           <p className="text-sm text-muted-foreground pickyside-font">
-                            CYBER METROPOLIS
+                            Торговый район
                           </p>
                         </CardContent>
                       </Card>
@@ -354,16 +354,16 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text pickyside-font">◇ LIZUN-MARIO: SPACE QUEST</CardTitle>
+            <CardTitle className="text-3xl gradient-text pickyside-font">◇ МОП-МАРИО: ТОРГОВАЯ ОДИССЕЯ</CardTitle>
             <p className="text-muted-foreground pickyside-font">
-              USE ← → ARROWS TO MOVE. COLLECT COINS AND REACH THE FINISH!
+              ИСПОЛЬЗУЙ ← → СТРЕЛКИ ДЛЯ ДВИЖЕНИЯ. СОБЕРИ МОНЕТЫ И ДОСТИГНИ ФИНИША!
             </p>
           </CardHeader>
           <CardContent>
             {!gameRunning ? (
               <div className="space-y-4">
                 <div className="text-center mb-6">
-                  <p className="text-lg mb-4 pickyside-font">SELECT LEVEL:</p>
+                  <p className="text-lg mb-4 pickyside-font">ВЫБЕРИ УРОВЕНЬ:</p>
                   <div className="flex gap-4 justify-center">
                     {[1, 2, 3].map(level => (
                       <Button
@@ -372,8 +372,8 @@ function Index() {
                         className={`hover-scale neon-glow pickyside-font ${completedLevels.includes(level) ? 'bg-green-600' : ''}`}
                         variant="outline"
                       >
-                        {completedLevels.includes(level) ? '◆' : '◇'} LEVEL {level}
-                        {completedLevels.includes(level) && <span className="ml-2 text-xs">(+100 LZC)</span>}
+                        {completedLevels.includes(level) ? '◆' : '◇'} УРОВЕНЬ {level}
+                        {completedLevels.includes(level) && <span className="ml-2 text-xs">(+100 Пагкоинов)</span>}
                       </Button>
                     ))}
                   </div>
@@ -383,7 +383,7 @@ function Index() {
               <div className="space-y-4">
                 <div className="text-center mb-4">
                   <Badge className="text-lg px-4 py-2 neon-glow pickyside-font">
-                    LEVEL {gameLevel} | COINS: {3 - coins.length}/3
+                    УРОВЕНЬ {gameLevel} | МОНЕТ: {3 - coins.length}/3
                   </Badge>
                 </div>
                 
@@ -419,7 +419,7 @@ function Index() {
                     variant="outline"
                     className="hover-scale pickyside-font"
                   >
-                    ◼ STOP GAME
+                    ◼ ОСТАНОВИТЬ ИГРУ
                   </Button>
                 </div>
               </div>
@@ -444,20 +444,20 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text">🌌 История страны Лизунск</CardTitle>
+            <CardTitle className="text-3xl gradient-text">🏛️ История Мопс-Града</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
-              В далеком 3030 году, когда человечество освоило гипер-варп технологии, была основана 
-              галактическая страна Лизунск - первая межпланетная цивилизация, посвященная сладостям.
+              В далекие времена, когда торговые пути пролегали через все земли, был основан 
+              город Мопс-Град - главный торговый центр, посвященный ремеслам и торговле.
             </p>
             <p>
-              Страна получила свое название в честь легендарного киберлизуна - искусственного существа, 
-              которое согласно космическим хроникам, охраняло квантовые рецепты антигравитационного мороженого.
+              Город получил свое название в честь легендарных мопсов - верных спутников купцов, 
+              которые согласно древним летописям, охраняли торговые тайны и редкие товары.
             </p>
             <p>
-              Сегодня Лизунск является центром галактической торговли сладостями, где каждый житель - 
-              мастер создания уникальных вкусов с использованием молекулярных технологий будущего.
+              Сегодня Мопс-Град является центром торговли, где каждый житель - 
+              мастер своего дела, а пагкоины звенят на каждом базаре.
             </p>
           </CardContent>
         </Card>
@@ -479,9 +479,9 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text">🛸 Космический магазин</CardTitle>
+            <CardTitle className="text-3xl gradient-text">🏪 Торговая лавка</CardTitle>
             <p className="text-muted-foreground">
-              Ваш баланс: <span className="text-primary font-bold gradient-text">{lizcoin} лизкоинов</span>
+              Ваш баланс: <span className="text-primary font-bold gradient-text">{pugcoins} пагкоинов</span>
             </p>
           </CardHeader>
           <CardContent>
@@ -505,7 +505,7 @@ function Index() {
                     </p>
                     <Button 
                       onClick={() => buyItem(item)}
-                      disabled={lizcoin < item.price}
+                      disabled={pugcoins < item.price}
                       className="w-full hover-scale neon-glow"
                     >
                       Купить
@@ -534,15 +534,15 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text">🏛️ Космические достопримечательности</CardTitle>
+            <CardTitle className="text-3xl gradient-text">🏛️ Достопримечательности</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { name: 'Квантовая статуя Лизы Свободы', emoji: '🗽', desc: 'Голографический символ галактики с антигравитационным рожком' },
-                { name: 'Музей Молекулярного Мороженого', emoji: '🍦', desc: 'Самая большая коллекция межпланетных рецептов' },
-                { name: 'Парк Космических Грез', emoji: '🌌', desc: 'Невесомый парк с фонтанами из жидкого азота' },
-                { name: 'Мост Плазменных Лизунов', emoji: '🌉', desc: 'Энергетический мост между орбитальными станциями' }
+                { name: 'Статуя Мопса Благородного', emoji: '🗽', desc: 'Каменный символ города с золотым ошейником' },
+                { name: 'Музей Торгового Дела', emoji: '🏛️', desc: 'Самая большая коллекция редких товаров' },
+                { name: 'Базарная площадь', emoji: '🏪', desc: 'Главное место торговли города' },
+                { name: 'Мост Купеческий', emoji: '🌉', desc: 'Древний мост между торговыми районами' }
               ].map(attraction => (
                 <Card key={attraction.name} className="hover-scale glass-effect neon-glow">
                   <CardHeader>
@@ -577,9 +577,9 @@ function Index() {
         
         <Card className="mb-6 glass-effect neon-glow">
           <CardHeader>
-            <CardTitle className="text-3xl gradient-text">⚡ Квантовые кроссворды</CardTitle>
+            <CardTitle className="text-3xl gradient-text">⚡ Торговые кроссворды</CardTitle>
             <p className="text-muted-foreground">
-              Решайте киберзагадки и получайте по 25 лизкоинов за каждый правильный ответ!
+              Решайте загадки и получайте по 25 пагкоинов за каждый правильный ответ!
             </p>
           </CardHeader>
           <CardContent>
